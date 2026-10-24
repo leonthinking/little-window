@@ -49,19 +49,43 @@ async function updateBounds(windowId, geometry) {
   finally { updating.delete(windowId); }
 }
 
+async function launcherContexts(tabId, windowId) {
+  // Before Chrome 156, tabs.get() scrubs even our own extension URL without
+  // broad tab permissions. This API proves the live extension document instead.
+  return chrome.runtime.getContexts({
+    documentUrls: [SEARCH_PAGE], tabIds: [tabId], windowIds: [windowId],
+    frameIds: [0], incognito: false
+  });
+}
+
 async function openLauncher() {
-  const existing = (await session()).launcher;
+  const state = await session();
+  const existing = state.launcher;
   if (existing) {
+    let tab, win;
     try {
-      const tab = await chrome.tabs.get(existing.tabId);
-      const win = await chrome.windows.get(existing.windowId);
-      if (tab.windowId === win.id && tab.url === SEARCH_PAGE && !win.incognito && win.type === "popup") {
+      tab = await chrome.tabs.get(existing.tabId);
+      win = await chrome.windows.get(existing.windowId);
+    } catch { /* The user may have closed the previous launcher. */ }
+    if (tab && win && tab.windowId === win.id && !win.incognito && win.type === "popup") {
+      let contexts = await launcherContexts(tab.id, win.id);
+      const tracked = state.trackedWindows[win.id];
+      const starting = tracked?.tabId === tab.id && tracked.role === "launcher" && !tracked.ready;
+      // windows.create can resolve before the first document exists. Waiting for
+      // the document is safe here; waiting for its queued launcher-ready message
+      // would deadlock this serialized queue.
+      for (let attempt = 0; starting && !contexts.length && attempt < 15; attempt++) {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        contexts = await launcherContexts(tab.id, win.id);
+      }
+      if (contexts.length) {
+        // A focus/restore error must not be mistaken for a missing window.
         await chrome.windows.update(existing.windowId, { state: "normal", focused: true });
-        // The page filters by window ID so older restored launchers ignore this.
         await chrome.runtime.sendMessage({ type: "focus-input", windowId: existing.windowId }).catch(() => {});
         return;
       }
-    } catch { /* Closed or navigated away; create a fresh launcher. */ }
+      if (starting && (await chrome.tabs.get(tab.id)).status === "loading") throw new Error("error_open");
+    }
     await clearLauncher();
   }
   const saved = (await chrome.storage.local.get("launcherBounds")).launcherBounds;
@@ -94,7 +118,8 @@ function isPage(sender, url) {
 }
 
 async function fromLauncher(sender) {
-  if (!isPage(sender, SEARCH_PAGE) || !Number.isInteger(sender.tab?.id) || !Number.isInteger(sender.tab?.windowId)) {
+  if (!isPage(sender, SEARCH_PAGE) || !Number.isInteger(sender.tab?.id) || !Number.isInteger(sender.tab?.windowId) ||
+      typeof sender.documentId !== "string" || sender.frameId !== 0) {
     throw new Error("error_stale");
   }
   let tab, win;
@@ -102,10 +127,10 @@ async function fromLauncher(sender) {
     tab = await chrome.tabs.get(sender.tab.id);
     win = await chrome.windows.get(sender.tab.windowId);
   } catch { throw new Error("error_stale"); }
-  if (tab.windowId !== win.id || tab.url !== SEARCH_PAGE ||
-      (tab.pendingUrl && tab.pendingUrl !== SEARCH_PAGE) || win.type !== "popup" || win.incognito) {
-    throw new Error("error_stale");
-  }
+  if (tab.windowId !== win.id || (tab.pendingUrl && tab.pendingUrl !== SEARCH_PAGE) ||
+      win.type !== "popup" || win.incognito) throw new Error("error_stale");
+  const contexts = await launcherContexts(tab.id, win.id);
+  if (!contexts.some(context => context.documentId === sender.documentId)) throw new Error("error_stale");
   const state = await session();
   const known = state.trackedWindows[win.id];
   // Back navigation/session restore may bring back a previous search page.

@@ -59,6 +59,12 @@ async function harness(previous) {
   const chrome = {
     runtime: {
       id:'test', getURL:name => `chrome-extension://test/${name}`,
+      async getContexts(filter) {
+        return [...tabs.values()]
+          .filter(tab => filter.tabIds.includes(tab.id) && filter.windowIds.includes(tab.windowId) &&
+            filter.documentUrls.includes(tab.url) && filter.frameIds.includes(0) && !tab.incognito)
+          .map(tab => ({tabId:tab.id,windowId:tab.windowId,frameId:0,incognito:false,documentId:`doc-${tab.id}`,documentUrl:tab.url}));
+      },
       onMessage:event('message'),onInstalled:event('installed'),async sendMessage() {}
     },
     storage:{local:store(local),session:store(session)},
@@ -100,7 +106,7 @@ async function harness(previous) {
   const setup = {id:'test',url:chrome.runtime.getURL('setup.html'),tab:{id:2,windowId:1}};
   const senderFor = winId => {
     const tab = [...tabs.values()].find(t => t.windowId === winId);
-    return {id:'test',url:chrome.runtime.getURL('search.html'),tab:structuredClone(tab)};
+    return {id:'test',url:chrome.runtime.getURL('search.html'),tab:structuredClone(tab),frameId:0,documentId:`doc-${tab.id}`};
   };
   const message = (data,sender=setup) => new Promise(resolve => listeners.message(data,sender,resolve));
   const drain = () => message({type:'get-state'});
@@ -200,4 +206,43 @@ test('rejected offscreen creation retries safely then repairs remembered bounds'
   assert.deepEqual(h.local.launcherBounds,area);
   assert.equal(h.windows.get(id).left,area.left);
   assert.equal(h.windows.get(id).width,area.width);
+});
+
+
+test('older Chrome scrubbed tab URLs still authorize live documents and reuse a cold launcher', async () => {
+  const h = await harness();
+  const realGet = h.chrome.tabs.get;
+  h.chrome.tabs.get = async id => {const tab=await realGet(id);delete tab.url;return tab;};
+  const realContexts = h.chrome.runtime.getContexts;
+  let initialMisses=2;
+  h.chrome.runtime.getContexts = async filter => initialMisses-- > 0 ? [] : realContexts(filter);
+  const results=await Promise.all(Array.from({length:8},()=>h.message({type:'open-launcher'})));
+  assert.ok(results.every(result=>result.ok));
+  assert.equal(h.windows.size,1);
+  const id=h.session.launcher.windowId;
+  assert.equal((await h.message({type:'launcher-ready',screen:area},h.senderFor(id))).ok,true);
+  assert.equal((await h.message({type:'browse',input:'example.com',screen:area},h.senderFor(id))).ok,true);
+  assert.equal(h.local.history[0].input,'example.com');
+});
+
+test('request document proof rejects stale documents, missing identities and wrong frames', async () => {
+  const h=await harness();
+  const id=await h.launch();
+  const legitimate=h.senderFor(id);
+  for (const change of [{documentId:'old-document'},{documentId:undefined},{frameId:1},{url:'https://example.com/'}]) {
+    const response=await h.message({type:'browse',input:'example.com',screen:area},{...legitimate,...change});
+    assert.deepEqual(response,{ok:false,error:'error_stale'});
+  }
+  h.tabs.get(legitimate.tab.id).url='https://example.com/';
+  assert.deepEqual(await h.message({type:'browse',input:'example.org',screen:area},legitimate),{ok:false,error:'error_stale'});
+  assert.equal(h.local.history,undefined);
+});
+
+test('a focus failure preserves the existing launcher instead of duplicating it', async () => {
+  const h=await harness();
+  const id=await h.launch();
+  h.chrome.windows.update=async()=>{throw Error('transient window activation error');};
+  assert.deepEqual(await h.message({type:'open-launcher'}),{ok:false,error:'error_generic'});
+  assert.equal(h.windows.size,1);
+  assert.equal(h.session.launcher.windowId,id);
 });

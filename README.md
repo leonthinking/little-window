@@ -20,6 +20,8 @@ Inspired by the convenience of Little Arc. Independent project; not affiliated w
 
 ## Install
 
+Requires Chrome 116 or later.
+
 1. Download `little-window-0.2.0.zip` from [Releases](https://github.com/leonthinking/little-window/releases), then unzip it to a permanent folder.
 2. Open `chrome://extensions` and enable **Developer mode**.
 3. Click **Load unpacked**, then select the extracted `little-window` folder containing `manifest.json`.

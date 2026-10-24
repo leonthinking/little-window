@@ -2,7 +2,7 @@
 
 Release candidate: **0.2.0**. Local validation date: **2026-10-24**.
 
-Final local result: **16/16 unit tests and 18/18 real Chromium scenarios passed**, using Chrome for Testing **156.0.8078.4** on macOS. The ZIP package was generated from the tested source and its file list checked.
+Final local result: **19/19 unit tests passed. All 19 real Chromium scenarios passed on both Chrome 145.0.7632.6 and 156.0.8078.4 on macOS.** The ZIP package was generated from the tested source and its file list checked.
 
 ## Reproduce
 
@@ -32,7 +32,7 @@ The installed v0.2.0 was reloaded and its version verified in ordinary Chrome on
 
 ## Review
 
-Two independent reviewers examined backend state/concurrency and frontend/security/privacy. Confirmed issues were fixed and regression cases added: rejected offscreen creation and Escape behavior on the language selector. A separate restart experiment confirmed the tested Chromium restores ordinary windows but does not restore browsing popups after a clean shutdown; local preferences remain, session IDs reset.
+Two independent reviewers examined backend state/concurrency and frontend/security/privacy. Confirmed issues were fixed and regression cases added: rejected offscreen creation, Escape behavior on the language selector, and older Chrome versions hiding extension URLs from the tabs API. Window identity now uses the extension runtime contexts API, available from Chrome 116, without requesting broad tab permissions. A separate restart experiment confirmed the tested Chromium restores ordinary windows but does not restore browsing popups after a clean shutdown; local preferences remain, session IDs reset.
 
 ## Explicit boundaries
 

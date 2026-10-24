@@ -8,7 +8,7 @@ import { isDeepStrictEqual } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const output = path.join(root, 'test-results');
+const output = path.resolve(root, process.env.TEST_OUTPUT_DIR || 'test-results');
 await fs.mkdir(output, {recursive: true});
 const profile = await fs.mkdtemp(path.join(os.tmpdir(), 'little-window-test-'));
 const passed = [];
@@ -59,6 +59,8 @@ async function launch() {
   await page.locator('#query').waitFor();
   await page.waitForFunction(()=>document.activeElement?.id==='query');
   await page.waitForFunction(()=>document.documentElement.lang.startsWith('en'));
+  const ready=await request(page,{type:'get-state'});
+  assert.equal(ready.ok,true,`Launcher is not authorized: ${JSON.stringify(ready)}`);
   return page;
 }
 async function bounds(page) {
@@ -81,6 +83,11 @@ try {
     const commands=await worker.evaluate(()=>chrome.commands.getAll());
     assert.ok(commands.length);
     assert.ok(commands.every(x=>!x.shortcut));
+  });
+  await check('Eight cold simultaneous requests create one launcher',async()=>{
+    const replies=await setup.evaluate(()=>Promise.all(Array.from({length:8},()=>chrome.runtime.sendMessage({type:'open-launcher'}))));
+    assert.ok(replies.every(reply=>reply.ok));
+    await poll(async()=>context.pages().filter(page=>page.url().endsWith('/search.html')).length,count=>count===1,'cold launcher duplication');
   });
   let search=await launch();
   await check('Independent launcher, focused input, empty history and EN/ZH live switching',async()=>{
