@@ -1,0 +1,182 @@
+{
+  "extension_name": {
+    "message": "Little Window"
+  },
+  "extension_description": {
+    "message": "A quiet search box and an independent browsing window. Look something up, then close it."
+  },
+  "action_title": {
+    "message": "Open Little Window"
+  },
+  "command_open": {
+    "message": "Open search window"
+  },
+  "command_fallback": {
+    "message": "Open search window (alternate)"
+  },
+  "brand": {
+    "message": "Little Window"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "close_search": {
+    "message": "Close search window"
+  },
+  "close_search_hint": {
+    "message": "Close search window (Esc)"
+  },
+  "query_placeholder": {
+    "message": "Search, or enter a URL"
+  },
+  "query_label": {
+    "message": "Search or enter a URL"
+  },
+  "submit": {
+    "message": "Search or open website"
+  },
+  "intent_search": {
+    "message": "Uses your default Chrome search engine"
+  },
+  "intent_url": {
+    "message": "Open a website in its own window"
+  },
+  "language_label": {
+    "message": "Language"
+  },
+  "language_auto": {
+    "message": "Auto"
+  },
+  "recent_title": {
+    "message": "Recent"
+  },
+  "history_clear": {
+    "message": "Clear all"
+  },
+  "history_empty": {
+    "message": "Your last five lookups will appear here."
+  },
+  "history_local": {
+    "message": "Only lookups made here. Stored on this device."
+  },
+  "history_remove": {
+    "message": "Remove {input}"
+  },
+  "history_open": {
+    "message": "Open again: {input}"
+  },
+  "history_url": {
+    "message": "Website"
+  },
+  "history_search": {
+    "message": "Search"
+  },
+  "setup_title": {
+    "message": "Get started with Little Window"
+  },
+  "eyebrow": {
+    "message": "A LITTLE MOMENT ON THE WEB"
+  },
+  "headline_one": {
+    "message": "Look something up."
+  },
+  "headline_two": {
+    "message": "Get back to your day."
+  },
+  "lead": {
+    "message": "A quick search box and a separate window for the web. Enter a query or URL, press Enter, then close the window when you are done."
+  },
+  "step_one": {
+    "message": "Pin Little Window in Chrome’s toolbar, then click its icon to open a search window."
+  },
+  "step_two": {
+    "message": "For a global shortcut, open Keyboard shortcuts below, choose your own unused combination, and set its scope to Global."
+  },
+  "step_three": {
+    "message": "No shortcut is assigned on a fresh install. Chrome must stay running for a global shortcut to work."
+  },
+  "shortcuts": {
+    "message": "Keyboard shortcuts ↗"
+  },
+  "open_try": {
+    "message": "Try a window"
+  },
+  "refresh_shortcuts": {
+    "message": "Check shortcuts"
+  },
+  "checking_shortcuts": {
+    "message": "Checking shortcuts…"
+  },
+  "shortcut_status": {
+    "message": "Primary: {primary}. Alternate: {fallback}. Check that the scope is Global on the shortcut settings page."
+  },
+  "shortcut_unbound": {
+    "message": "Not set"
+  },
+  "shortcut_failed": {
+    "message": "Could not read shortcuts. Check chrome://extensions/shortcuts."
+  },
+  "shortcut_open_failed": {
+    "message": "Open chrome://extensions/shortcuts in the address bar to configure a shortcut."
+  },
+  "usage_title": {
+    "message": "Make it yours"
+  },
+  "usage_text": {
+    "message": "The search box and browsing window remember their last position and size separately. Resize or move either one as you like. Esc closes the search box; {closeKey} closes a web window. Existing web windows stay open when you start another lookup."
+  },
+  "history_title": {
+    "message": "Five recent lookups"
+  },
+  "history_text": {
+    "message": "Only successful submissions from Little Window are saved, on this device. Click a recent item to reopen it; remove items individually or clear them all. This does not read or delete Chrome’s browsing history."
+  },
+  "privacy_title": {
+    "message": "Privacy"
+  },
+  "privacy_text": {
+    "message": "No analytics, account, or remote code. Searches go to your default search engine. Web pages use your current Chrome profile and can create normal browsing history. Closing a window does not make it private browsing. The extension is unavailable in incognito mode."
+  },
+  "shortcut_note_title": {
+    "message": "Shortcut conflicts"
+  },
+  "shortcut_note": {
+    "message": "System, browser, and other apps’ shortcuts can take priority. Use a different combination from Chrome’s native desktop search. This extension cannot override a reserved shortcut."
+  },
+  "error_input": {
+    "message": "Enter a search or a web address."
+  },
+  "error_empty": {
+    "message": "Type something you would like to look up."
+  },
+  "error_too_long": {
+    "message": "That is too long. Shorten it and try again."
+  },
+  "error_scheme": {
+    "message": "Only http and https websites can be opened."
+  },
+  "error_url": {
+    "message": "That address looks incomplete. Please check it."
+  },
+  "error_credentials": {
+    "message": "Use a web address without a username or password."
+  },
+  "error_open": {
+    "message": "The window could not open. Please try again."
+  },
+  "error_language": {
+    "message": "Choose one of the available languages."
+  },
+  "error_history": {
+    "message": "This recent item is unavailable. Please try again."
+  },
+  "error_generic": {
+    "message": "Something went wrong. Please try again."
+  },
+  "error_stale": {
+    "message": "This search window is no longer available. Open a new one."
+  },
+  "error_operation": {
+    "message": "This action is unavailable. Please reopen the window."
+  }
+}

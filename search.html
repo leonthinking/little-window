@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Little Window</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="search-body">
+  <main class="search-card">
+    <header class="search-header">
+      <div class="brand"><img class="brand-symbol" src="icons/logo.svg" alt=""><span data-i18n="brand">Little Window</span><span class="brand-dot" aria-hidden="true"></span></div>
+      <div class="header-actions">
+        <select id="language" class="language-select" aria-label="Language" data-i18n-aria="language_label"><option value="auto" data-i18n="language_auto">Auto</option><option value="zh_CN" lang="zh-CN">中文</option><option value="en" lang="en">English</option></select>
+        <button class="icon-button close-button" id="close" type="button" aria-label="Close search window" data-i18n-aria="close_search" data-i18n-title="close_search_hint">×</button>
+      </div>
+    </header>
+    <form id="search-form" autocomplete="off">
+      <div class="input-shell">
+        <svg class="search-icon" width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 4.2 4.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <input id="query" name="query" type="text" autofocus spellcheck="false" autocapitalize="off" maxlength="8192" aria-label="Search or enter a URL" aria-describedby="input-help error" placeholder="Search, or enter a URL" data-i18n-aria="query_label" data-i18n-placeholder="query_placeholder" enterkeyhint="go">
+        <button class="submit-button" id="submit" type="submit" aria-label="Search or open website" data-i18n-aria="submit" data-i18n-title="submit"><span aria-hidden="true">↵</span></button>
+      </div>
+      <p class="error-message" id="error" role="alert" hidden></p>
+    </form>
+    <div class="search-footer">
+      <span id="input-help"><span class="engine-dot" aria-hidden="true"></span><span id="intent" data-i18n="intent_search">Uses your default Chrome search engine</span></span>
+      <span class="escape-hint"><kbd>esc</kbd><span data-i18n="close">Close</span></span>
+    </div>
+    <section class="recent-section" aria-labelledby="recent-title">
+      <div class="recent-heading"><h2 id="recent-title" data-i18n="recent_title">Recent</h2><button id="clear-history" class="text-button" type="button" data-i18n="history_clear" disabled>Clear all</button></div>
+      <ol id="history-list" class="history-list"></ol>
+      <p id="history-empty" class="history-empty" data-i18n="history_empty">Your last five lookups will appear here.</p>
+      <p class="history-privacy" data-i18n="history_local">Only lookups made here. Stored on this device.</p>
+    </section>
+  </main>
+  <script type="module" src="search.js"></script>
+</body>
+</html>

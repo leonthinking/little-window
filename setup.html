@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Little Window</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="setup-body">
+  <main class="setup-card">
+    <section class="setup-main">
+      <header class="setup-header"><div class="brand"><img class="brand-symbol" src="icons/logo.svg" alt=""><span data-i18n="brand">Little Window</span><span class="brand-dot" aria-hidden="true"></span></div><label class="language-label"><span data-i18n="language_label">Language</span><select id="language" class="language-select" data-i18n-aria="language_label" aria-label="Language"><option value="auto" data-i18n="language_auto">Auto</option><option value="zh_CN" lang="zh-CN">中文</option><option value="en" lang="en">English</option></select></label></header>
+      <p class="eyebrow" data-i18n="eyebrow">A LITTLE MOMENT ON THE WEB</p>
+      <h1><span data-i18n="headline_one">Look something up.</span><br><span data-i18n="headline_two">Get back to your day.</span></h1>
+      <p class="lead" data-i18n="lead"></p>
+      <div class="setup-demo" aria-hidden="true"><div class="demo-field"><span data-i18n="query_placeholder">Search, or enter a URL</span><kbd>↵</kbd></div><div class="demo-footer"><span data-i18n="intent_search"></span><span>esc</span></div></div>
+      <ol class="steps"><li><span data-i18n="step_one"></span></li><li><span data-i18n="step_two"></span></li><li><span data-i18n="step_three"></span></li></ol>
+      <div class="setup-actions"><button class="primary-button" type="button" id="try" data-i18n="open_try">Try a window</button><button class="secondary-button" type="button" id="shortcuts" data-i18n="shortcuts">Keyboard shortcuts ↗</button><button class="secondary-button" type="button" id="refresh" data-i18n="refresh_shortcuts">Check shortcuts</button></div>
+      <p class="status" id="status" role="status" aria-live="polite" data-i18n="checking_shortcuts">Checking shortcuts…</p>
+    </section>
+    <aside class="setup-note">
+      <p><strong data-i18n="usage_title"></strong><br><span id="usage-text"></span></p>
+      <p><strong data-i18n="history_title"></strong><br><span data-i18n="history_text"></span></p>
+      <p><strong data-i18n="privacy_title"></strong><br><span data-i18n="privacy_text"></span></p>
+      <p><strong data-i18n="shortcut_note_title"></strong><br><span data-i18n="shortcut_note"></span></p>
+    </aside>
+  </main>
+  <script type="module" src="setup.js"></script>
+</body>
+</html>

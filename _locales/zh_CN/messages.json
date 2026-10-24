@@ -1,0 +1,182 @@
+{
+  "extension_name": {
+    "message": "Little Window · 小窗"
+  },
+  "extension_description": {
+    "message": "随手搜索，在独立 Chrome 小窗中浏览，看完即关。"
+  },
+  "action_title": {
+    "message": "打开小窗"
+  },
+  "command_open": {
+    "message": "打开搜索小窗"
+  },
+  "command_fallback": {
+    "message": "打开搜索小窗（备用）"
+  },
+  "brand": {
+    "message": "Little Window · 小窗"
+  },
+  "close": {
+    "message": "关闭"
+  },
+  "close_search": {
+    "message": "关闭搜索框"
+  },
+  "close_search_hint": {
+    "message": "关闭搜索框（Esc）"
+  },
+  "query_placeholder": {
+    "message": "搜索，或输入网址"
+  },
+  "query_label": {
+    "message": "搜索或输入网址"
+  },
+  "submit": {
+    "message": "搜索或打开网页"
+  },
+  "intent_search": {
+    "message": "使用 Chrome 默认搜索引擎"
+  },
+  "intent_url": {
+    "message": "在独立小窗中打开网页"
+  },
+  "language_label": {
+    "message": "语言"
+  },
+  "language_auto": {
+    "message": "跟随浏览器"
+  },
+  "recent_title": {
+    "message": "最近记录"
+  },
+  "history_clear": {
+    "message": "清空"
+  },
+  "history_empty": {
+    "message": "最近 5 次查询会显示在这里。"
+  },
+  "history_local": {
+    "message": "仅记录在小窗中提交的查询，保存在本机。"
+  },
+  "history_remove": {
+    "message": "删除 {input}"
+  },
+  "history_open": {
+    "message": "再次打开：{input}"
+  },
+  "history_url": {
+    "message": "网址"
+  },
+  "history_search": {
+    "message": "搜索"
+  },
+  "setup_title": {
+    "message": "开始使用小窗"
+  },
+  "eyebrow": {
+    "message": "给临时查询留一扇小窗"
+  },
+  "headline_one": {
+    "message": "随手查一下，"
+  },
+  "headline_two": {
+    "message": "然后继续手边的事。"
+  },
+  "lead": {
+    "message": "一个随时呼出的搜索框，一扇独立的网页小窗。输入关键词或网址，回车打开；看完关闭，继续手边的事。"
+  },
+  "step_one": {
+    "message": "在 Chrome 工具栏中固定小窗，点击扩展图标即可呼出搜索框。"
+  },
+  "step_two": {
+    "message": "如需全局快捷键，点击下方“设置快捷键”，选择一个未被占用的组合，并将作用范围设为“全局”。"
+  },
+  "step_three": {
+    "message": "首次安装不预设快捷键；使用全局快捷键时，Chrome 需要保持运行。"
+  },
+  "shortcuts": {
+    "message": "设置快捷键 ↗"
+  },
+  "open_try": {
+    "message": "试用小窗"
+  },
+  "refresh_shortcuts": {
+    "message": "检查按键设置"
+  },
+  "checking_shortcuts": {
+    "message": "正在检查快捷键…"
+  },
+  "shortcut_status": {
+    "message": "主快捷键：{primary}。备用快捷键：{fallback}。请在快捷键设置页确认作用范围为“全局”。"
+  },
+  "shortcut_unbound": {
+    "message": "未绑定"
+  },
+  "shortcut_failed": {
+    "message": "未能读取快捷键，请前往 chrome://extensions/shortcuts 检查。"
+  },
+  "shortcut_open_failed": {
+    "message": "请在地址栏打开 chrome://extensions/shortcuts 设置快捷键。"
+  },
+  "usage_title": {
+    "message": "按你的习惯使用"
+  },
+  "usage_text": {
+    "message": "搜索框和网页小窗分别记住上次的位置和大小，可以直接拖动调整。搜索框内按 Esc 关闭；网页小窗用 {closeKey} 关闭。再次查询时，已打开的网页小窗会保留。"
+  },
+  "history_title": {
+    "message": "最近 5 条记录"
+  },
+  "history_text": {
+    "message": "仅在本机保存最近 5 次成功提交的搜索词或网址。点击记录可再次打开，也可单条删除或全部清空。它不会读取或删除 Chrome 的浏览历史。"
+  },
+  "privacy_title": {
+    "message": "隐私"
+  },
+  "privacy_text": {
+    "message": "无统计、无账号、无远程代码。搜索提交给默认搜索引擎，网页使用当前 Chrome 配置并正常产生浏览历史。关闭小窗不等于无痕浏览；扩展不在无痕模式中运行。"
+  },
+  "shortcut_note_title": {
+    "message": "快捷键冲突"
+  },
+  "shortcut_note": {
+    "message": "系统、浏览器或其他应用的快捷键可能优先响应。请使用与 Chrome 原生桌面搜索不同的组合；扩展无法覆盖被保留的快捷键。"
+  },
+  "error_input": {
+    "message": "请输入搜索内容或网址。"
+  },
+  "error_empty": {
+    "message": "先输入一点想查的内容吧。"
+  },
+  "error_too_long": {
+    "message": "内容太长了，请缩短后再试。"
+  },
+  "error_scheme": {
+    "message": "小窗只打开 http 或 https 网页。"
+  },
+  "error_url": {
+    "message": "这个网址似乎不完整，请检查一下。"
+  },
+  "error_credentials": {
+    "message": "请使用不含用户名和密码的网址。"
+  },
+  "error_open": {
+    "message": "小窗未能打开，请再试一次。"
+  },
+  "error_language": {
+    "message": "请选择支持的语言。"
+  },
+  "error_history": {
+    "message": "这条记录已失效，请重试。"
+  },
+  "error_generic": {
+    "message": "暂时没能完成，请再试一次。"
+  },
+  "error_stale": {
+    "message": "这个搜索框已失效，请重新呼出小窗。"
+  },
+  "error_operation": {
+    "message": "无法识别这个操作，请重新呼出小窗。"
+  }
+}
