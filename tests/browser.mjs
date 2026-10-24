@@ -37,6 +37,14 @@ async function start() {
   context.on('page', page => page.on('pageerror', e => errors.push(e.message)));
   worker = context.serviceWorkers()[0] || await context.waitForEvent('serviceworker');
   id = new URL(worker.url()).host;
+  await worker.evaluate(()=>{
+    globalThis.__windowUpdateFailures=[];
+    const original=chrome.windows.update.bind(chrome.windows);
+    chrome.windows.update=async(...args)=>{
+      try{return await original(...args);}
+      catch(error){globalThis.__windowUpdateFailures.push({args,error:error.message});throw error;}
+    };
+  });
   setup = await context.newPage();
   await setup.goto(`chrome-extension://${id}/setup.html`);
   await setup.locator('#try').waitFor();
@@ -312,7 +320,13 @@ try {
   console.log(`${passed.length} browser scenarios passed.`);
   await fs.writeFile(path.join(output,'browser-results.json'),JSON.stringify({browser:context.browser()?.version(),passed,errors},null,2));
 } catch(error) {
-  await fs.writeFile(path.join(output,'browser-results.json'),JSON.stringify({passed,errors,failure:error.stack},null,2));
+  const diagnostics=await worker?.evaluate(async()=>({
+    windows:await chrome.windows.getAll({populate:true}),
+    session:await chrome.storage.session.get(null),
+    updateFailures:globalThis.__windowUpdateFailures,
+  })).catch(()=>null);
+  console.error('Browser diagnostic',JSON.stringify({browser:context?.browser()?.version(),diagnostics}));
+  await fs.writeFile(path.join(output,'browser-results.json'),JSON.stringify({passed,errors,failure:error.stack,diagnostics},null,2));
   for(const [i,page] of (context?.pages()||[]).entries()) await page.screenshot({path:path.join(output,`failure-${i}.png`)}).catch(()=>{});
   throw error;
 } finally {
